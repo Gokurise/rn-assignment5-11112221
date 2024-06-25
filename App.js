@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text ,Image, SafeAreaView} from 'react-native'
+import React from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import HomeScreen from './Components/HomeScreen';
+import SettingsScreen from './Components/SettingsScreen';
+import StatisticsScreen from './Components/StatisticsScreen';
+import CardsScreen from './Components/CardsScreen';
 
-export default function App() {
+const Tab = createBottomTabNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    
+    <NavigationContainer>
+    <Tab.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+      <Tab.Screen name="Home" component={HomeScreen}
+      options={{
+        tabBarIcon: () => <Image source={require("./assets/home.png")}/>
+      }} />
+      <Tab.Screen name="Settings" component={SettingsScreen} 
+       options={{
+        tabBarIcon: () => <Image source={require("./assets/settings.png")}/>
+      }}/>
+      <Tab.Screen name="Statistics" component={StatisticsScreen} 
+       options={{
+        tabBarIcon: () => <Image source={require("./assets/statictics.png")}/>
+      }}/>
+      <Tab.Screen name="CardsScreen" component={CardsScreen} 
+       options={{
+        tabBarIcon: () => <Image source={require("./assets/myCards.png")}/>
+      }}/>
+    </Tab.Navigator>
+    </NavigationContainer>
+  
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
