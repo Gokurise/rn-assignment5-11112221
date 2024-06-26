@@ -1,42 +1,58 @@
-import { View, Text ,Image, SafeAreaView} from 'react-native'
-import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './Components/HomeScreen';
-import SettingsScreen from './Components/SettingsScreen';
-import StatisticsScreen from './Components/StatisticsScreen';
-import CardsScreen from './Components/CardsScreen';
+import SettingsScreen from './Components/SettingsScreen'
+import { Image, StyleSheet } from 'react-native';
+import { ThemeContext } from './Theme/ThemeContext';
+import { useContext } from 'react';
+import 'react-native-gesture-handler';
 
 const Tab = createBottomTabNavigator();
 
-const App = () => {
-  return (
-    
-    <NavigationContainer>
-    <Tab.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}>
-      <Tab.Screen name="Home" component={HomeScreen}
-      options={{
-        tabBarIcon: () => <Image source={require("./assets/home.png")}/>
-      }} />
-      <Tab.Screen name="Settings" component={SettingsScreen} 
-       options={{
-        tabBarIcon: () => <Image source={require("./assets/settings.png")}/>
-      }}/>
-      <Tab.Screen name="Statistics" component={StatisticsScreen} 
-       options={{
-        tabBarIcon: () => <Image source={require("./assets/statictics.png")}/>
-      }}/>
-      <Tab.Screen name="CardsScreen" component={CardsScreen} 
-       options={{
-        tabBarIcon: () => <Image source={require("./assets/myCards.png")}/>
-      }}/>
-    </Tab.Navigator>
-    </NavigationContainer>
-  
-  )
-}
+const TabNavigator = () => {
+  const { isDarkTheme } = useContext(ThemeContext);
 
-export default App
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={
+          ({ route }) => ({
+          tabBarIcon: ({ focused }) => {
+            let iconName;
+            if (route.name === 'Home') {
+              iconName = require('./assets/home.png');
+            } else if (route.name === 'My Cards') {
+              iconName = require('./assets/myCards.png');
+            } else if (route.name === 'Statistics') {
+              iconName = require('./assets/statictics.png');
+            } else if (route.name === 'Settings') {
+              iconName = require('./assets/settings.png');
+            }
+            return <Image source={iconName} style={[styles.icon, ]} />;
+          },
+          tabBarActiveTintColor: 'blue',
+          tabBarInactiveTintColor: 'gray',
+          tabBarStyle: {
+          backgroundColor: isDarkTheme ? '#333' : '#fff', 
+          },
+          headerShown: false ,
+        })
+      }
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="My Cards" component={HomeScreen} />
+        <Tab.Screen name="Statistics" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 24,
+    height: 24,
+  },
+});
+
+export default TabNavigator;
