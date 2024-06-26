@@ -80,7 +80,7 @@ const HomeScreen = () => {
             <Text style={styles.transactionName}>Grocery</Text>
             <Text style={styles.transactionCategory}>Education</Text>
           </View>
-          <Text style={styles.transactionAmount}>$700</Text>
+          <Text style={styles.transactionAmount}>$88</Text>
         </View>
       </View>
 
